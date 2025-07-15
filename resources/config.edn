@@ -1,0 +1,19 @@
+{:env       #profile {:default :local
+                      :test    :test}
+
+ :server    {:type  :jetty
+             :host  #profile {:default "localhost"
+                              :test    "0.0.0.0"}
+             :port  "9999"
+             :join? false}
+
+ :postgres  {:database               ""
+             :host                   "localhost"
+             :port                   "5432"
+             :username               "rinha-2025"
+             :password               "rinha_2025"
+             :socket-timeout-seconds 60
+             :maximum-pool-size      10}
+
+ :migration {:migrations-dir        "resources/migrations/"
+             :migrations-table-name "schema_migrations"}}

@@ -1,0 +1,3 @@
+{defflow [[:inner 0]]
+ flow    [[:inner 0]]
+ for-all [[:inner 0]]}

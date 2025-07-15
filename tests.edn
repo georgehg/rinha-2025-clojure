@@ -1,0 +1,5 @@
+#kaocha/v1
+{:tests [{:id :unit
+          :source-paths ["src/calculator_svc"]
+          :test-paths ["test/calculator_svc"]
+          :ns-patterns ["-test$"]}]}
