@@ -1,7 +1,7 @@
 {:deps    {org.clojure/clojure                              {:mvn/version "1.12.1"}
            ch.qos.logback/logback-classic                   {:mvn/version "1.5.18"}
+           cheshire/cheshire                                {:mvn/version "6.0.0"}
            clj-http/clj-http                                {:mvn/version "3.13.1"}
-           com.stuartsierra/component                       {:mvn/version "1.1.0"}
            io.pedestal/pedestal.error                       {:mvn/version "0.8.0-beta-1"}
            io.pedestal/pedestal.jetty                       {:mvn/version "0.8.0-beta-1"}
            io.pedestal/pedestal.service                     {:mvn/version "0.8.0-beta-1"}
