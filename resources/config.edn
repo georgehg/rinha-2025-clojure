@@ -1,19 +1,28 @@
 {:env       #profile {:default :local
-                      :test    :test}
+                      :test    :test
+                      :prod    :prod}
 
- :server    {:type  :jetty
-             :host  #profile {:default "localhost"
-                              :test    "0.0.0.0"}
-             :port  "9999"
-             :join? false}
+ :server    {:host  #profile {:default "localhost"
+                              :test    "0.0.0.0"
+                              :prod    "0.0.0.0"}
+             :port  "9999"}
 
- :postgres  {:database               ""
+ :payment-processors {:default-host  #profile {:default "http://127.0.0.1:8001"
+                                               :prod    "http://payment-processor-default:8080"}
+                      :fallback-host #profile {:default "http://127.0.0.1:8002"
+                                               :prod    "http://payment-processor-fallback:8080"}
+                      :endpoints {:health  "/payments/service-health"
+                                  :payment "/payments"}}
+
+ :postgres  {:database               "payments"
              :host                   "localhost"
              :port                   "5432"
-             :username               "rinha-2025"
+             :username               "rinha2025"
              :password               "rinha_2025"
              :socket-timeout-seconds 60
              :maximum-pool-size      10}
 
  :migration {:migrations-dir        "resources/migrations/"
-             :migrations-table-name "schema_migrations"}}
+             :migrations-table-name "schema_migrations"
+             :init-script           "init.sql"}}
+
