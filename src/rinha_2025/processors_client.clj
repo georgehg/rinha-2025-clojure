@@ -38,7 +38,7 @@
 
 (defn get-default-processor-health
   []
-  (let [{:keys [default-processor-url health-endpoint default-request]} *processors-client]
+  (let [{:keys [default-processor-url health-endpoint default-request]} @*processors-client]
     (-> (client/get (str default-processor-url health-endpoint)
                     (assoc default-request
                            :accept :json
@@ -47,7 +47,7 @@
 
 (defn get-fallback-processor-health
   []
-  (let [{:keys [fallback-processor-url health-endpoint default-request]} *processors-client]
+  (let [{:keys [fallback-processor-url health-endpoint default-request]} @*processors-client]
     (-> (client/get (str fallback-processor-url health-endpoint)
                     (assoc default-request
                            :accept :json
@@ -56,7 +56,7 @@
 
 (defn send-payment-default
   [payment-data]
-  (let [{:keys [default-processor-url payment-endpoint default-request]} *processors-client]
+  (let [{:keys [default-processor-url payment-endpoint default-request]} @*processors-client]
     (-> (client/post (str default-processor-url payment-endpoint)
                      (assoc default-request
                             :body         (json/encode payment-data)
@@ -65,7 +65,7 @@
 
 (defn send-payment-fallback
   [payment-data]
-  (let [{:keys [fallback-processor-url payment-endpoint default-request]} *processors-client]
+  (let [{:keys [fallback-processor-url payment-endpoint default-request]} @*processors-client]
     (-> (client/post (str fallback-processor-url payment-endpoint)
                      (assoc default-request
                             :body         (json/encode payment-data)

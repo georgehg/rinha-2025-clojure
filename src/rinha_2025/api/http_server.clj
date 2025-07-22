@@ -44,7 +44,6 @@
                                                 (Executors/newVirtualThreadPerTaskExecutor))
         {:keys [host port]} (:server config)]
     (-> (conn/default-connector-map host (read-string port))
-        (conn/with-default-interceptors)
         (conn/with-interceptors service-interceptors)
         (conn/with-interceptor (inject-dependencies deps))
         (conn/with-routes routes/routes)
