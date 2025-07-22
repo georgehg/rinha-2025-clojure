@@ -3,7 +3,9 @@
    [io.pedestal.log :as logger]
    [migratus.core :as migratus]
    [next.jdbc :as jdbc]
-   [next.jdbc.connection :as connection])
+   [next.jdbc.connection :as connection]
+   [next.jdbc.result-set :as rs]
+   [next.jdbc.sql :as sql])
   (:import
    [com.zaxxer.hikari HikariDataSource]))
 
@@ -29,7 +31,7 @@
   (as-> (migratus/migrate config) completed
     (logger/info :migration-completed (or completed :successful))))
 
-(defonce *database (atom nil))
+(defonce *connection (atom nil))
 
 (defn db-connect
   [config]
@@ -37,11 +39,38 @@
         connection (connection/->pool HikariDataSource db-spec)]
     (execute-migration (config->migration-spec connection (:migration config)))
     (logger/info :started :postgres-connection :database (-> config :postgres :database))
-    (reset! *database connection)))
+    (reset! *connection connection)))
 
 (defn db-disconnect
   []
-  (when @*database
-    (.close @*database)
-    (reset! *database nil)
+  (when @*connection
+    (.close @*connection)
+    (reset! *connection nil)
     (logger/info :stopped :postgres-connection)))
+
+(defn insert-payment-processing-request
+  [{:keys [correlationId amount]}]
+  (sql/insert! @*connection
+               :payments_processing
+               {:correlation_id correlationId
+                :amount         amount
+                :status         "REQUESTED"}))
+
+(defn update-payment-processing-status
+  [id processor status]
+  (sql/update! @*connection
+               :payments_processing
+               {:status status
+                :processor processor}
+               {:processing_id id}))
+
+(defn payments-processing-summary
+  [start-date end-date]
+  (first
+   (sql/query @*connection
+              ["select processor, count(*) as total_requests, sum(amount) as total_amount
+                from payments_processing
+                where requested_at between ?::timestamp and ?::timestamp
+                group by processor"
+               start-date end-date]
+              {:builder-fn rs/as-unqualified-lower-maps})))

@@ -4,8 +4,7 @@
    [clojure.java.io :as io]
    [rinha-2025.api.http-server :as server]
    [rinha-2025.db.postgres :as db]
-   [rinha-2025.processors-client :refer [setup-processors-client
-                                         shutdown-client]]))
+   [rinha-2025.processors-client :as client]))
 
 (defn- config-file
   [env]
@@ -25,7 +24,7 @@
   []
   (let [config  (get-config)
         db-conn (db/db-connect config)
-        client  (setup-processors-client config)]
+        client  (client/setup-processors-client config)]
     (server/start-server config
                          {:processors-client client
                           :database          db-conn})))
@@ -33,7 +32,7 @@
 (defn stop-service
   []
   (db/db-disconnect)
-  (shutdown-client)
+  (client/shutdown-client)
   (server/stop-server))
 
 (defn -main [& _args]
