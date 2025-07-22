@@ -1,12 +1,11 @@
-(ns rinha-2025.api.routes 
+(ns rinha-2025.api.routes
   (:require
    [rinha-2025.processors-client :refer [send-payment-default]]))
 
 (defn- handle-payments-processing-fn
   [context]
-  (let [processors-client     (-> context :dependencies :processors-client)
-        payment-data          (-> context :request :json-params)
-        {:keys [status body]} (send-payment-default processors-client payment-data)]
+  (let [payment-data          (-> context :request :json-params)
+        {:keys [status body]} (send-payment-default payment-data)]
 
     (assoc context :response
            {:status status
@@ -18,9 +17,9 @@
   (assoc context :response
          {:status 200
           :body   {:default {:totalRequests  43236
-                            :totalAmount    415542345.98}
-                  :fallback {:totalRequests 423545
-                             :totalAmount   329347.34}}}))
+                             :totalAmount    415542345.98}
+                   :fallback {:totalRequests 423545
+                              :totalAmount   329347.34}}}))
 
 (defn- handle-post-purge-payments-fn
   [context]

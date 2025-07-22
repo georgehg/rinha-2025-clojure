@@ -1,9 +1,9 @@
-(ns rinha-2025.db.postgres 
+(ns rinha-2025.db.postgres
   (:require
    [io.pedestal.log :as logger]
    [migratus.core :as migratus]
    [next.jdbc :as jdbc]
-   [next.jdbc.connection :as connection]) 
+   [next.jdbc.connection :as connection])
   (:import
    [com.zaxxer.hikari HikariDataSource]))
 
