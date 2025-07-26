@@ -16,11 +16,7 @@
         result (service/payments-summary-by-processor from to)]
     (assoc context :response
            {:status 200
-            :body   result
-            #_{:default {:totalRequests  43236
-                         :totalAmount    415542345.98}
-               :fallback {:totalRequests 423545
-                          :totalAmount   329347.34}}})))
+            :body   result})))
 
 (defn- handle-post-purge-payments-fn
   [context]

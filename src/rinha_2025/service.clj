@@ -12,5 +12,11 @@
 
 (defn payments-summary-by-processor
   [start-date end-date]
-  (payments-processing-summary (str (ZonedDateTime/parse start-date))
-                               (str (ZonedDateTime/parse end-date))))
+  (->> (payments-processing-summary (str (ZonedDateTime/parse start-date))
+                                    (str (ZonedDateTime/parse end-date)))
+       (reduce (fn [summary totals]
+                 (assoc summary
+                        (-> totals :processor keyword)
+                        {:totalRequests (:total_requests totals)
+                         :totalAmount   (:total_amount totals)}))
+               {})))

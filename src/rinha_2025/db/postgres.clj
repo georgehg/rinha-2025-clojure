@@ -66,11 +66,10 @@
 
 (defn payments-processing-summary
   [start-date end-date]
-  (first
-   (sql/query @*connection
-              ["select processor, count(*) as total_requests, sum(amount) as total_amount
-                from payments_processing
-                where requested_at between ?::timestamp and ?::timestamp
-                group by processor"
-               start-date end-date]
-              {:builder-fn rs/as-unqualified-lower-maps})))
+  (sql/query @*connection
+             ["select processor, count(*) as total_requests, sum(amount) as total_amount
+               from payments_processing
+               where requested_at between ?::timestamp and ?::timestamp
+               group by processor"
+              start-date end-date]
+             {:builder-fn rs/as-unqualified-lower-maps}))
