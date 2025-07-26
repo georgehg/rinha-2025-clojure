@@ -20,6 +20,7 @@
 
 (defn- handle-post-purge-payments-fn
   [context]
+  (service/purge-payments-processing)
   (assoc context :response
          {:status 200
           :body  "payments database purged successfully"}))

@@ -73,3 +73,8 @@
                group by processor"
               start-date end-date]
              {:builder-fn rs/as-unqualified-lower-maps}))
+
+(defn purge-payments-processing-data
+  []
+  (sql/query @*connection
+             ["truncate table payments_processing"]))

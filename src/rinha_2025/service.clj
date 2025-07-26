@@ -1,9 +1,11 @@
 (ns rinha-2025.service
   (:require
    [rinha-2025.db.postgres :refer [insert-payment-processing-request
-                                   payments-processing-summary]]
+                                   payments-processing-summary
+                                   purge-payments-processing-data]]
    [rinha-2025.processors-client :refer [send-payment-default]])
-  (:import [java.time ZonedDateTime]))
+  (:import
+   [java.time ZonedDateTime]))
 
 (defn request-payment-processing
   [payment-data]
@@ -20,3 +22,7 @@
                         {:totalRequests (:total_requests totals)
                          :totalAmount   (:total_amount totals)}))
                {})))
+
+(defn purge-payments-processing
+  []
+  (purge-payments-processing-data))
