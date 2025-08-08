@@ -4,7 +4,8 @@
    [clojure.java.io :as io]
    [rinha-2025.api.http-server :as server]
    [rinha-2025.db.postgres :as db]
-   [rinha-2025.processors-client :as client]))
+   [rinha-2025.processors-client :as client])
+  (:gen-class))
 
 (defn- config-file
   [env]

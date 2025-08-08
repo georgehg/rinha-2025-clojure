@@ -20,7 +20,7 @@
              :username               "rinha2025"
              :password               "rinha_2025"
              :socket-timeout-seconds 60
-             :maximum-pool-size      10}
+             :maximum-pool-size      100}
 
  :migration {:migrations-dir        "resources/migrations/"
              :migrations-table-name "schema_migrations"

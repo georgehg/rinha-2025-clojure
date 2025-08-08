@@ -54,7 +54,8 @@
                :payments_processing
                {:correlation_id correlationId
                 :amount         amount
-                :status         "REQUESTED"}))
+                :status         "REQUESTED"}
+               {:builder-fn rs/as-unqualified-lower-maps}))
 
 (defn update-payment-processing-status
   [id processor status]
@@ -70,6 +71,7 @@
              ["select processor, count(*) as total_requests, sum(amount) as total_amount
                from payments_processing
                where requested_at between ?::timestamp and ?::timestamp
+               and status = 'PROCESSED'
                group by processor"
               start-date end-date]
              {:builder-fn rs/as-unqualified-lower-maps}))

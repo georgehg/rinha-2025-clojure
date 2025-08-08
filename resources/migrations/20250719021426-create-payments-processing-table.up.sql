@@ -8,4 +8,8 @@ CREATE TABLE payments_processing (
 );
 --;;
 
-CREATE INDEX payments_processing_processing_id_idx on PAYMENTS_PROCESSING using hash (processing_id);
+CREATE INDEX idx_hash_payments_processing_processing_id on PAYMENTS_PROCESSING using hash (processing_id);
+--;;
+
+CREATE INDEX idx_btree_payments_processing_requested_at ON PAYMENTS_PROCESSING USING BTREE (requested_at);
+
